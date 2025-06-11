@@ -1,6 +1,9 @@
 
 
 
+from collections import namedtuple
+
+
 def maxProfit(prices: list[int]) -> int:
     profit = 0
     for i in range(len(prices)):
@@ -22,7 +25,7 @@ def maxProfit2(prices: list[int]) -> int:
             dp[i] = dp[i - 1]
     return dp[n - 1]
 
-def maxProfit3(prices:list[int]) -> int:
+def maxProfit4(prices:list[int]) -> int:
     # [value, index]
     low = [prices[0], 0]
     high = [0, 0] 
@@ -41,3 +44,18 @@ def maxProfit3(prices:list[int]) -> int:
             profit = max(high[0] - low[0], profit)
     return profit
     
+Point = namedtuple('Point', ['price', 'index'])
+
+def maxProfit4(prices:list[int]) -> int:
+    low = Point(prices[0], 0)
+    high = Point(prices[0], 0)
+    profit = 0
+    for i, price in enumerate(prices):
+        if price < low.price:
+            low = Point(price, i)
+            high = low
+        if price > high.price:
+            high = Point(price, i)
+        if high.index > low.index:
+            profit = max(high.price-low.price, profit)
+    return profit
