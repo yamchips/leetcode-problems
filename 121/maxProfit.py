@@ -25,7 +25,7 @@ def maxProfit2(prices: list[int]) -> int:
             dp[i] = dp[i - 1]
     return dp[n - 1]
 
-def maxProfit4(prices:list[int]) -> int:
+def maxProfit5(prices:list[int]) -> int:
     # [value, index]
     low = [prices[0], 0]
     high = [0, 0] 
@@ -46,7 +46,7 @@ def maxProfit4(prices:list[int]) -> int:
     
 Point = namedtuple('Point', ['price', 'index'])
 
-def maxProfit4(prices:list[int]) -> int:
+def maxProfit5(prices:list[int]) -> int:
     low = Point(prices[0], 0)
     high = Point(prices[0], 0)
     profit = 0
@@ -58,4 +58,14 @@ def maxProfit4(prices:list[int]) -> int:
             high = Point(price, i)
         if high.index > low.index:
             profit = max(high.price-low.price, profit)
+    return profit
+
+def maxProfit5(prices:list[int]) -> int:
+    low = prices[0]
+    profit = 0
+    for price in prices:
+        if price < low:
+            low = price
+        else:
+            profit = max(profit, price - low)
     return profit
