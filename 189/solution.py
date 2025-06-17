@@ -1,5 +1,5 @@
 # O(n) space complexity
-def rotate3(nums: list[int], k:int) -> None:
+def rotate1(nums: list[int], k:int) -> None:
     n = len(nums)
     steps = k % n
     temp = [0] * n
@@ -10,7 +10,7 @@ def rotate3(nums: list[int], k:int) -> None:
     nums[:] = temp
 
 
-def rotate3(nums: list[int], k:int) -> None:
+def rotate2(nums: list[int], k:int) -> None:
     n = len(nums)
     steps = k % n
     count = 0
