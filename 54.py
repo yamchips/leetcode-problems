@@ -34,7 +34,6 @@ def spiralOrder(matrix: list[list[int]]) -> list[int]:
 def spiralOrder(matrix: list[list[int]]) -> list[int]:
     m = len(matrix)
     n = len(matrix[0])
-    direction = [(0,1),(1,0),(0,-1),(-1,0)] # sprial direction
     left, right, top, bottom = 0, n, 0, m
     result = []
     while left < right and top < bottom:
