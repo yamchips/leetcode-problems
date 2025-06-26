@@ -40,6 +40,41 @@ def smallestFromLeaf(root: Optional[TreeNode]) -> str:
             stack.append((node.left, path))
     return transfer(smallest)
 
+def smallestFromLeaf(root: Optional[TreeNode]) -> str:
+    if not root:
+        return ''
+    stack = [(root, '')]
+    smallest = None
+    while stack:
+        node, path = stack.pop()
+        path += (chr(node.val + ord('a')))
+        if not node.left and not node.right:
+            if smallest:
+                smallest = path if path[::-1] < smallest[::-1] else smallest
+            else:
+                smallest = path
+        if node.right:
+            stack.append((node.right, path))
+        if node.left:
+            stack.append((node.left, path))
+    return smallest[::-1]
+
+def smallestFromLeaf(root: Optional[TreeNode]) -> str:
+    if not root:
+        return ''
+    stack = [(root, chr(ord('a') + root.val))]
+    smallest = None
+    while stack:
+        node, path = stack.pop()
+        if not node.left and not node.right: # if node is leaf
+            if smallest is None or path < smallest:
+                smallest = path
+        if node.right:
+            stack.append((node.right, chr(node.right.val + ord('a')) + path))
+        if node.left:
+            stack.append((node.left, chr(node.left.val + ord('a')) + path))
+    return smallest
+
 if __name__=='__main__':
     node1 = TreeNode(1, TreeNode(3), TreeNode(4))
     node2 = TreeNode(2, TreeNode(3), TreeNode(4))
