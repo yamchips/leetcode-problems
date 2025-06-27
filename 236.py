@@ -3,10 +3,10 @@ from collections import deque
 
 
 class TreeNode:
-    def __init__(self, x):
+    def __init__(self, x, left=None, right=None):
         self.val = x
-        self.left = None
-        self.right = None
+        self.left = left
+        self.right = right
 
 def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
     dict = {} # child: parent
@@ -46,3 +46,12 @@ def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
         return left
     else:
         return right
+    
+if __name__=='__main__':
+    node_6 = TreeNode(6)
+    node_4 = TreeNode(4)
+    node_2 = TreeNode(2, TreeNode(7), node_4)
+    node_5 = TreeNode(5, node_6, node_2)
+    node_1 = TreeNode(1, TreeNode(0), TreeNode(8))
+    root = TreeNode(3, node_5, node_1)
+    print(lowestCommonAncestor(root, node_6, node_4).val)
