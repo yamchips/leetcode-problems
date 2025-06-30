@@ -52,7 +52,9 @@ def isValidSudoku(board: list[list[str]]) -> bool:
             item = board[row][col]
             box = (row // 3, col // 3)
             if item != '.':
-                if (item, 'row', row) in elements or (item, 'col', col) in elements or (item, 'box', box) in elements:
+                if ((item, 'row', row) in elements or 
+                    (item, 'col', col) in elements or 
+                    (item, 'box', box) in elements):
                     return False
                 elements.add((item, 'row', row))
                 elements.add((item, 'col', col))

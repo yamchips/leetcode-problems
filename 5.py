@@ -1,5 +1,5 @@
 # use a dp matrix,  O(n^2) time and O(n^2) space
-# even if we turn matrix to two arrays, we still have O(n^2) space
+# even if we turn matrix to two arrays, we still have O(n) space
 def longestPalindrome(s:str) -> str:
     n = len(s)
     dp = [[False] * n for _ in range(n)] # dp[i][j]: whether s[i:j+1] is a palindrome
@@ -19,18 +19,19 @@ def longestPalindrome(s:str) -> str:
     return s[start : end + 1]
 
 # use expand method, O(n^2) time and O(1) space
+def expand(s: str, left: int, right: int, n: int) -> str:
+    while left >= 0 and right <= n - 1 and s[left] == s[right]:
+        left -= 1
+        right += 1
+    return s[left + 1: right]
+
 def longestPalindrome(s:str) -> str:
     n = len(s)
     if n == 1: return s
-    def expand(s: str, left: int, right: int) -> str:
-        while left >= 0 and right <= n - 1 and s[left] == s[right]:
-            left -= 1
-            right += 1
-        return s[left + 1: right]
     result = s[0]
     for i in range(n):
-        odd = expand(s, i, i)
-        even = expand(s, i, i + 1)
+        odd = expand(s, i, i, n)
+        even = expand(s, i, i + 1, n)
         if len(odd) > len(result):
             result = odd
         if len(even) > len(result):
