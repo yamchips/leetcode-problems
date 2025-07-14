@@ -18,6 +18,8 @@ def evalRPN(tokens: list[str]) -> int:
             stack.append(token)
     return int(stack.pop())
 
+# // trunctuates towards -inf, int(a/b) trunctuates towards 0
+
 if __name__=='__main__':
     print(evalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]))
     print(evalRPN(["4","13","5","/","+"]))
