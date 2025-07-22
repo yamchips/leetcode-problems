@@ -24,8 +24,8 @@ def reverseWords2(s:str)->str:
 
 # use list to simulate a mutable string
 def reverseWords3(s: str) -> str:
-    s = list(s)
-    s.reverse()
+    s = list(s) 
+    s.reverse() 
     startIndex, n = 0, len(s)
     endIndex = 0
     while startIndex < n:
@@ -38,11 +38,11 @@ def reverseWords3(s: str) -> str:
         wordStart = endIndex  # Save start of current word
 
         while startIndex < n and s[startIndex] != ' ':
-            s[endIndex] = s[startIndex]
+            s[endIndex] = s[startIndex] 
             startIndex += 1
             endIndex += 1
 
-        reverse(s, wordStart, endIndex - 1)
+        reverse(s, wordStart, endIndex - 1) 
 
     s = s[:endIndex]
     return ''.join(s)

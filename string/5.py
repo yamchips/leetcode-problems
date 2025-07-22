@@ -1,6 +1,6 @@
 # use a dp matrix,  O(n^2) time and O(n^2) space
 # even if we turn matrix to two arrays, we still have O(n) space
-def longestPalindrome(s:str) -> str:
+def longestPalindrome1(s:str) -> str:
     n = len(s)
     dp = [[False] * n for _ in range(n)] # dp[i][j]: whether s[i:j+1] is a palindrome
     start = 0

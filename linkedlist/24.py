@@ -7,21 +7,21 @@ class ListNode:
         self.next = next
         
 
-def swapPairs( head: Optional[ListNode]) -> Optional[ListNode]:
+def swapPairs1( head: Optional[ListNode]) -> Optional[ListNode]:
     dummy = ListNode(0)
     dummy.next = head
 
     prev = dummy
     curr = head
-    next = head.next
+    next = head.next # type: ignore
     
     while prev and next:
-        curr.next = next.next
+        curr.next = next.next # type: ignore
         next.next = curr
         prev.next = next
 
         prev = curr
-        curr = prev.next
+        curr = prev.next # type: ignore
         if curr is None:
             break
         next = curr.next

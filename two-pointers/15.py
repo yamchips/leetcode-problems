@@ -11,7 +11,7 @@ def search(target: int, sortedNums: list[int]) -> int:
             return mid
     return -1
 
-def threeSum(nums:list[int]) -> list[list[int]]:
+def threeSum1(nums:list[int]) -> list[list[int]]:
     res = []
     sortedNums = sorted(nums)
     left, right = 0, len(nums) - 1
@@ -37,7 +37,7 @@ def threeSum(nums:list[int]) -> list[list[int]]:
                     left += 1
     return res
 
-def threeSum(nums:list[int]) -> list[list[int]]:
+def threeSum2(nums:list[int]) -> list[list[int]]:
     nums.sort()
     res = []
     for i in range(len(nums) - 2):

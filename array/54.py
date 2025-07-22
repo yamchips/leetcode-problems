@@ -1,4 +1,4 @@
-def spiralOrder(matrix: list[list[int]]) -> list[int]:
+def spiralOrder1(matrix: list[list[int]]) -> list[int]:
     result = []
     def deleteFr(matrix: list[list[int]], result:list):
         result.extend(matrix.pop(0))

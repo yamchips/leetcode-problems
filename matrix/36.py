@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 
-def isValidSudoku(board: list[list[str]]) -> bool:
+def isValidSudoku1(board: list[list[str]]) -> bool:
     countMap = defaultdict(int)
     def checkBoard(board: list[list[str]], row:int, col:int)-> bool:
         item = board[row][col]
