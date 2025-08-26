@@ -1,9 +1,11 @@
+# Hacker rank
 import bisect
 
 '''
 Priority Queue solution
 
 '''
+
 
 '''
 Optimal solution
@@ -46,9 +48,32 @@ def activityNotifications(expenditure: list[int], d: int) -> int:
         trailing[expenditure[i]] += 1
     return notification
 
+'''
+Improved solution based on original solution 
+
+Use binary search to delete, no TLE
+'''
+def activityNotifications2(expenditure: list[int], d: int) -> int:
+    warns = 0
+
+    trailing = sorted(expenditure[:d])
+
+    for today in range(d, len(expenditure)):
+        if d % 2 == 1:
+            mid = trailing[d // 2]
+        else:
+            mid = (trailing[d // 2] + trailing[d // 2 - 1]) / 2
+        if expenditure[d] > 2 * mid:
+            warns += 1
+        # update the window
+        old_value = expenditure[today - d]
+        del trailing[bisect.bisect_left(trailing, old_value)]
+        index = bisect.bisect_left(trailing, expenditure[today])
+        trailing.insert(index, expenditure[today])
+
 
 '''
-Original solution
+Original solution, TLE
 
 O(nd) time
 O(d) space
@@ -81,5 +106,20 @@ def activityNotifications1(expenditure: list[int], d: int) -> int:
     return res
 
 if __name__=='__main__':
-    activityNotifications([1,2,3,4,4],4)
-    
+    # activityNotifications([1,2,3,4,4],4)
+
+    binary_insert([1,3,5,7], 6)
+    # print(bisect.bisect_left([1,3,5,7], 6))
+    print(bisect.bisect_right([1,3,5,7], 6))
+
+    binary_insert([1,3,5,7], 4)
+    # print(bisect.bisect_left([1,3,5,7], 4))
+    print(bisect.bisect_right([1,3,5,7], 4))
+
+    binary_insert([1,3,5,7], 2)
+    # print(bisect.bisect_left([1,3,5,7], 2))
+    print(bisect.bisect_right([1,3,5,7], 2))
+
+    binary_insert([1,3,5,7], 3)
+    # print(bisect.bisect_left([1,3,5,7], 3))
+    print(bisect.bisect_right([1,3,5,7], 3))
