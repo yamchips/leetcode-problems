@@ -1,11 +1,101 @@
 # Hacker rank
 import bisect
+from collections import defaultdict
+import heapq
 
 '''
 Priority Queue solution
 
 '''
+def activityNotifications3(expenditure: list[int], d: int) -> int:
+    if len(expenditure) <= d or d == 0:
+        return 0
 
+    # small is a max-heap (store negatives), large is a min-heap
+    small = []   # max-heap via negatives: contains the smaller half
+    large = []   # min-heap: contains the larger half
+    delayed = defaultdict(int)  # value -> count of lazy deletions
+
+    smallSize = 0  # number of valid elements in small
+    largeSize = 0  # number of valid elements in large
+
+    def prune(heap, is_small):
+        """Remove heap top elements that are marked for deletion."""
+        while heap:
+            val = -heap[0] if is_small else heap[0]
+            if delayed[val] > 0:
+                delayed[val] -= 1
+                heapq.heappop(heap)
+            else:
+                break
+
+    def rebalance():
+        nonlocal smallSize, largeSize
+        # Ensure small has either same size as large or one more element
+        if smallSize > largeSize + 1:
+            prune(small, True)
+            v = -heapq.heappop(small)
+            smallSize -= 1
+            heapq.heappush(large, v)
+            largeSize += 1
+        elif largeSize > smallSize:
+            prune(large, False)
+            v = heapq.heappop(large)
+            largeSize -= 1
+            heapq.heappush(small, -v)
+            smallSize += 1
+
+    def add(num: int):
+        nonlocal smallSize, largeSize
+        # Before comparing with tops, prune to ensure tops are valid
+        prune(small, True)
+        prune(large, False)
+        if not small or num <= -small[0]:
+            heapq.heappush(small, -num)
+            smallSize += 1
+        else:
+            heapq.heappush(large, num)
+            largeSize += 1
+        rebalance()
+
+    def remove(num: int):
+        nonlocal smallSize, largeSize
+        # prune tops first so comparisons are correct
+        prune(small, True)
+        prune(large, False)
+        # Decide which logical heap num belongs to and decrement that size
+        if small and num <= -small[0]:
+            smallSize -= 1
+        else:
+            largeSize -= 1
+        # mark for lazy deletion
+        delayed[num] += 1
+        # actually remove from top if it sits at the top
+        prune(small, True)
+        prune(large, False)
+        rebalance()
+
+    def get_median() -> float:
+        prune(small, True)
+        prune(large, False)
+        if d % 2 == 1:
+            return float(-small[0])
+        return (-small[0] + large[0]) / 2.0
+
+    # Build initial window
+    for x in expenditure[:d]:
+        add(x)
+
+    warns = 0
+    for i in range(d, len(expenditure)):
+        med = get_median()
+        if expenditure[i] >= 2 * med:
+            warns += 1
+        # slide: remove outgoing, add incoming
+        remove(expenditure[i - d])
+        add(expenditure[i])
+
+    return warns
 
 '''
 Optimal solution
@@ -106,7 +196,7 @@ def activityNotifications1(expenditure: list[int], d: int) -> int:
     return res
 
 if __name__=='__main__':
-    # activityNotifications([1,2,3,4,4],4)
+    activityNotifications3([1,2,3,4,5],3)
 
     binary_insert([1,3,5,7], 6)
     # print(bisect.bisect_left([1,3,5,7], 6))
