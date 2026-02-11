@@ -33,5 +33,3 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
             result.append(num)
             if len(result) == k:
                 return result
-
-    pass
