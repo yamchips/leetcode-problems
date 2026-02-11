@@ -1,4 +1,14 @@
 from collections import defaultdict
+from typing import List
+
+def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+    records = defaultdict(list)
+    for str in strs:
+        freq = [0] * 26
+        for char in str:
+            freq[ord(char) - ord('a')] += 1
+        records[freq].append(str)
+    return list(records.values())
 
 # O(n^2)
 def groupAnagrams(strs:list[str]) -> list[list[str]]:
