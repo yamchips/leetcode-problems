@@ -9,6 +9,8 @@ def maxArea(height: list[int])->int:
             right -= 1
     return res
 
+
+
 if __name__=='__main__':
     print(maxArea([1,8,6,2,5,4,8,3,7])) # expected 49
     print(maxArea([1,1])) # expected 1
