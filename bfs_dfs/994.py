@@ -1,7 +1,7 @@
 from collections import deque
 from typing import List
 
-def orangesRotting1(grid: List[List[int]]) -> int:
+def orangesRotting(grid: List[List[int]]) -> int:
     m, n = len(grid), len(grid[0])
     directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     fresh, steps  = 0, 0

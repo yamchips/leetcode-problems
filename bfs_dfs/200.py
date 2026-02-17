@@ -81,6 +81,7 @@ def numIslands(grid) -> int:
                             stack.append((nx, ny))
     return count
 
+# recursive dfs
 def numIslands(grid) -> int:
     count = 0
     m = len(grid)
@@ -101,6 +102,29 @@ def numIslands(grid) -> int:
                 count += 1
 
     return count
+
+# bfs in 2026
+def numIslands(grid) -> int:
+    m, n = len(grid), len(grid[0])
+    directions = [[0,1],[0,-1],[1,0],[-1,0]]
+    result = 0
+    seen = set() # record visited positions
+    queue = deque()
+    for i in range(m):
+        for j in range(n):
+            
+            if (i, j) not in seen and grid[i][j] == '1':
+                queue.append((i, j))
+                while queue:
+                    x, y = queue.popleft()
+                    seen.add((x, y))
+                    for dx, dy in directions:
+                        nx, ny = x + dx, y + dy
+                        if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == '1' and (nx, ny) not in seen:
+                            queue.append((nx, ny))
+                            seen.add((nx, ny))
+                result += 1
+    return result
 
 if __name__=='__main__':
     print(numIslands([["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]])) # expected 1
