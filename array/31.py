@@ -1,5 +1,8 @@
 # Next permutation
 
+from itertools import permutations
+
+
 def nextPermutation(nums: list[int]) -> None:
     n = len(nums)
     # find the break point
@@ -25,3 +28,8 @@ def nextPermutation(nums: list[int]) -> None:
 if __name__=='__main__':
     nextPermutation([2,3,1,3,3])
     nextPermutation([1,3,2])
+    result = list(permutations([1,2,3,1]))
+    no_dup_res = set(result)
+    no_dup_res = list(no_dup_res)
+    no_dup_res.sort()
+    print(no_dup_res)

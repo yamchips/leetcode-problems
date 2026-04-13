@@ -2,7 +2,9 @@ def longestConsecutive(nums: list[int]) -> int:
     numSet = set(nums) # O(n) time
     maxLength = 0
     for num in numSet: # iterate in set help skip duplicates
-        if num - 1 not in numSet: # this help skip elements
+        # this help skip elements
+        # only start with the smallest number in one sequence
+        if num - 1 not in numSet: 
             length = 0
             while num + length in numSet:
                 length += 1
