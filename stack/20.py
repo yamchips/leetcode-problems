@@ -1,3 +1,5 @@
+# Valid Parentheses
+
 def isValid(s: str) -> bool:
     stack = []
     dict = {'[':']', '(':')', '{':'}'}
@@ -21,4 +23,17 @@ def isValid(s: str) -> bool:
             stack.append(pairs[char])
         elif not stack or stack.pop() != char:
             return False
+    return not stack
+
+def isValid(s: str) -> bool:
+    brackets = {"{":"}",
+                "[":"]",
+                "(":")"}
+    stack = []
+    for char in s:
+        if char in "{([":
+            stack.append(brackets[char])
+        else:
+            if not stack or stack.pop() != char:
+                return False
     return not stack
