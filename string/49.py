@@ -82,7 +82,17 @@ def groupAnagrams(strs:list[str]) -> list[list[str]]:
         result[tuple(count)].append(word)
     return list(result.values())
 
-
+def groupAnagrams(strs:list[str]) -> list[list[str]]:
+    anagram = defaultdict(list)
+    for word in strs:
+        # count the occurrence
+        occurrence = [0] * 26
+        for char in word:
+            occurrence[ord(char) - ord('a')] += 1
+        # add word to a dict, key is occurrence, value is word
+        anagram[tuple(occurrence)].append(word)
+    # use the dict to get final result
+    return list(anagram.values())
 
 if __name__=='__main__':
     print(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))
