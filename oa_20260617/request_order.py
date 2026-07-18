@@ -11,12 +11,12 @@ def calculate_server_request_order(incoming_requests: int, servers: list) -> Non
                         server.num_workers, 
                         server.load))
     for _ in range(incoming_requests):
-        server = heapq.heappop(heap)
-        print(server.id)
-        server.load += 1
+        _, id, num_workers, load = heapq.heappop(heap)
+        print(id)
+        load += 1
         heapq.heappush(heap, 
-                       (server.load / server.num_workers,
-                        server.id,
-                        server.num_workers,
-                        server.load))
+                       (load / num_workers,
+                        id,
+                        num_workers,
+                        load))
         
