@@ -45,5 +45,27 @@ def containsNearbyDuplicate1(nums: list[int], k: int) -> bool:
     
     return False
 
+'''
+dict solution
+time: O(n)
+space: O(n)
+'''
+def containsNearbyDuplicate(nums: list[int], k: int) -> bool:
+    if k == 0: return False
+    seen = {}
+    for i in range(len(nums)):
+        if nums[i] not in seen:
+            seen[nums[i]] = i
+        else:
+            latestIndex = seen[nums[i]]
+            if abs(i - latestIndex) <= k:
+                return True
+            else:
+                seen[nums[i]] = i
+    return False
+    
+
 if __name__=='__main__':
-    print(containsNearbyDuplicate3([1,0,1,1], 1))
+    print(containsNearbyDuplicate([1,0,1,1], 1)) # True
+    print(containsNearbyDuplicate([1,2,3,1], 3)) # True
+    print(containsNearbyDuplicate([1,2,3,1,2,3], 2)) # False
