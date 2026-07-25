@@ -1,7 +1,10 @@
 from collections import defaultdict, deque
 
-# Kahn's algorithm
-def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
+'''
+Kahn's algorithm
+Indegree array
+'''
+def canFinishKahn(numCourses: int, prerequisites: list[list[int]]) -> bool:
     adj = defaultdict(list)
     indegree = [0] * numCourses
 
@@ -25,8 +28,10 @@ def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
     # If we could process all courses, no cycle exists
     return completed == numCourses
 
-
-def canFinishIterative(numCourses: int, prerequisites: list[list[int]]) -> bool:
+'''
+Use two sets: visited and visiting + a boolean flag to check whether we are exiting this node
+'''
+def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
     adj = defaultdict(list)
     for dest, src in prerequisites:
         adj[src].append(dest)
@@ -38,12 +43,12 @@ def canFinishIterative(numCourses: int, prerequisites: list[list[int]]) -> bool:
         if course in visited:
             continue
 
-        stack = [(course, False)]  # (node, expanded_flag)
+        stack = [(course, False)]  # (node, exiting_flag)
 
         while stack:
-            node, expanded = stack.pop()
+            node, exiting = stack.pop()
 
-            if expanded:
+            if exiting:
                 visiting.remove(node)
                 visited.add(node)
                 continue
@@ -63,6 +68,42 @@ def canFinishIterative(numCourses: int, prerequisites: list[list[int]]) -> bool:
     return True
 
 def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
+    graph = [[] for _ in range(numCourses)]
+    for end, start in prerequisites:
+        graph[start].append(end)
+
+    # the node in it and everything reachable have been fully checked and are cycle-free
+    processed = set() 
+    visiting = set() # current path
+    for start in range(numCourses):
+        if start in processed:
+            continue
+
+        stack = [(start, False)]
+
+        while stack:
+            node, exiting = stack.pop()
+
+            if exiting:
+                visiting.remove(node)
+                processed.add(node)
+                continue
+
+            if node in processed:
+                continue
+
+            visiting.add(node)
+            stack.append((node, True))
+
+            for neighbor in graph[node]:
+                if neighbor in visiting:
+                    return False
+                if neighbor not in processed:
+                    stack.append((neighbor, False))
+
+    return True
+
+def canFinishRecursive(numCourses: int, prerequisites: list[list[int]]) -> bool:
     # build the adjacent list
     graph = defaultdict(list)
     for dest, src in prerequisites:
@@ -92,8 +133,15 @@ def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
     return True
 
 if __name__=='__main__':
-    print(canFinish(5, [[1,4],[2,4],[3,1],[3,2]]))
-    print(canFinish(4, [[3,1],[2,3],[1,2]]))
-    print(canFinish(2, [[1,0],[0,1]]))
-    print(canFinish(2, [[1,0]]))
+    print(canFinish(7,[[1,0],[2,0],[3,1],[3,2],[5,4],[6,5],[4,6]]))
+
+    print(canFinishKahn(3, [[1,0],[1,2],[0,1]])) # False
+    print(canFinishKahn(3, [[1,0],[1,2]])) # True
+    print(canFinishKahn(4, [[1,0],[2,0],[3,1],[3,2]])) # True
+    print(canFinishKahn(6, [[1,0],[2,0],[3,1],[3,2],[5,4]])) # True
+    print(canFinishKahn(6, [[1,0],[2,0],[3,1],[3,2],[0,3],[5,4]])) # False
+    print(canFinish(5, [[1,4],[2,4],[3,1],[3,2]])) # True
+    print(canFinish(4, [[3,1],[2,3],[1,2]])) # False
+    print(canFinish(2, [[1,0],[0,1]])) # False
+    print(canFinish(2, [[1,0]])) # True
     

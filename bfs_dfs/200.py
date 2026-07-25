@@ -126,6 +126,35 @@ def numIslands(grid) -> int:
                 result += 1
     return result
 
+# bfs in 2026-07-24
+def numIslands(grid) -> int:
+    m, n = len(grid), len(grid[0])
+    directions = [(0,1),(0,-1),(-1,0),(1,0)]
+    total = 0
+    seen = set()
+
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == '0':
+                continue
+            total += 1
+
+            queue = deque([(i,j)])
+            seen.add((i,j))
+
+            while queue:
+                row, col = queue.popleft()
+                grid[row][col] = '0'
+                for dx, dy in directions:
+                    nx = row + dx
+                    ny = col + dy
+                    if 0 <= nx <= m - 1 and 0 <= ny <= n - 1 \
+                        and ((nx, ny) not in seen) and grid[nx][ny] == '1':
+                        queue.append((nx, ny))
+                        seen.add((nx, ny))
+
+    return total 
+
 if __name__=='__main__':
     print(numIslands([["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]])) # expected 1
     print(numIslands([["1","1","0","0","0"],["1","1","0","0","0"],["0","0","1","0","0"],["0","0","0","1","1"]])) # expected 3

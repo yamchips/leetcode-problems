@@ -55,7 +55,7 @@ def cloneGraph(node: Optional['Node']) -> Optional['Node']:
 Following code is not correct
 '''
 # adjacent list
-def cloneGraph2(node: Optional['Node']) -> Optional['Node']:
+def cloneGraph2_false(node: Optional['Node']) -> Optional['Node']:
     if not node: return node
     adj = defaultdict(list)
     queue = deque([node])

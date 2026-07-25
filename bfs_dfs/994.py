@@ -90,5 +90,50 @@ def orangesRotting1(grid: List[List[int]]) -> int:
         if rotten: steps += 1
     return steps if fresh == 0 else -1
 
+def orangesRotting(grid: List[List[int]]) -> int:
+    m, n = len(grid), len(grid[0])
+
+    # scan the grid and create the queue
+    fresh = 0
+    queue = deque()
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == 1:
+                fresh += 1
+            elif grid [i][j] == 2:
+                queue.append((i,j))
+    # two edge cases
+    if fresh == 0:
+        return 0
+    if len(queue) == 0:
+        return -1
+
+    # let the rotten orange expand
+    
+    count = 0
+    while queue:
+        size = len(queue)
+        rotten = False
+        for _ in range(size):
+            x, y = queue.popleft()
+            for dx, dy in [(0,1),(0,-1),(1,0),(-1,0)]:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx <= m - 1 and \
+                   0 <= ny <= n - 1 and \
+                   grid[nx][ny] == 1:
+                    rotten = True
+                    grid[nx][ny] = 2
+                    fresh -= 1
+                    queue.append((nx, ny))
+        if rotten:
+            count += 1
+            
+    # check whether the fresh orange is 0
+    if fresh == 0:
+        return count
+    else:
+        return -1
+
+    
 if __name__=='__main__':
     print(orangesRotting([[1,2,1,1,2,1,1]]))
