@@ -13,7 +13,7 @@ def has_cycle_undirected(n, edges) -> bool:
     for start in range(n):
         if start in visited:
             continue
-        stack = [(start, -1)]
+        stack = [(start, -1)] # second node means its parent
         visited.add(start)
         while stack:
             node, parent = stack.pop()

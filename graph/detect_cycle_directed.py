@@ -5,6 +5,12 @@ We have n nodes from 0 to n-1
 Use a state array, 0 means unvisited, 1 means visiting, 2 means this node and all its children are processed
 
 Store (node, bool) in stack, True means exiting this node and its children are processed, False means entering the node
+
+Time complexity: O(V + E)
+    Let V be the number of vertices and E the number of edges. Building the adjacency list takes O(V + E). During DFS, each node is visited at most twice, and across all adjacency lists, each edge is examined once in a directed graph. Therefore, the total time complexity is O(V + E).
+
+Space complexity: O(V + E)
+    The adjacency list uses O(V + E), the state array uses O(V), and the stack may contain O(V + E) entries in the worst case because the same unprocessed node can be pushed by multiple parents.
 '''
 def has_cycle_directed(n, edges):
     graph = [[] for _ in range(n)]
@@ -45,6 +51,12 @@ def has_cycle_directed(n, edges):
 Use two sets: processed_set and visiting. 
 Processed_set means the nodes inside and its children are processed. 
 Visiting means the nodes inside is currently processing.
+
+Time complexity: O(V + E)
+    Building the adjacency list takes O(V + E). Each node is fully processed at most once, and each outgoing edge is examined when its source node is expanded. Duplicate pending stack entries are bounded by the number of edges, so the total time is O(V + E).
+
+Space complexity: O(V + E)
+    The adjacency list uses O(V + E). The processed_set and visiting sets use O(V), while the stack may use O(V + E) space because a node can be pushed through multiple incoming edges before it is processed.
 '''
 def has_cycle_directed(n, edges):
     # build adjacent list
@@ -92,6 +104,12 @@ If there exists one, return it in any order
 return [1,3,6] or [3,6,1] or [6,1,3]
 
 If no loop, return an empty array
+
+Time complexity: O(V + E)
+    Building the adjacency list takes O(V + E). The DFS processes each node and examines each edge at most a constant number of times. Reconstructing the detected loop follows at most V parent pointers, so the total time remains O(V + E).
+
+Space complexity: O(V + E)
+    The adjacency list uses O(V + E). The visited and visiting sets, parent dictionary, and returned loop use O(V). The stack may use O(V + E) space because duplicate pending entries can be created by multiple incoming edges.
 '''
 def get_loop(n: int, edges:list[list]) -> list:
     # build the graph

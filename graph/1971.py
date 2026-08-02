@@ -21,7 +21,7 @@ def validPath(n: int, edges: List[List[int]], source: int, destination: int) -> 
         for neighbor in adj_list[node]:
             if neighbor == destination: return True
             if neighbor not in seen:
-                seen.add(node)
+                seen.add(neighbor)
                 stack.append(neighbor)           
     return False
 
