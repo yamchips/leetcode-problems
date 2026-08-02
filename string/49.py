@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import List
 
-def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+def groupAnagrams(strs: List[str]) -> List[List[str]]:
     records = defaultdict(list)
     for str in strs:
         freq = [0] * 26
@@ -93,6 +93,16 @@ def groupAnagrams(strs:list[str]) -> list[list[str]]:
         anagram[tuple(occurrence)].append(word)
     # use the dict to get final result
     return list(anagram.values())
+
+def groupAnagrams(strs:list[str]) -> list[list[str]]:
+    records = defaultdict(list)
+    # key is freq array, value is all anagram
+    for element in strs:
+        freq = [0] * 26
+        for char in element:
+            freq[ord(char) - ord('a')] += 1
+        records[tuple(freq)].append(element)
+    return list(records.values())
 
 if __name__=='__main__':
     print(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))

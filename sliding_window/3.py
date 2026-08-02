@@ -36,6 +36,19 @@ def lengthOfLongestSubstring(s: str) -> int:
             left += 1
     return maxLength
 
+def lengthOfLongestSubstring(s: str) -> int:
+    max_length = 0
+    seen = set()
+    start, end = 0, 0
+    while end < len(s):
+        while s[end] in seen:
+            max_length = max(end - start, max_length)
+            seen.remove(s[start])
+            start += 1
+        seen.add(s[end])
+        end += 1
+    return max(max_length, end - start)
+
 if __name__=='__main__':
-    print(lengthOfLongestSubstring('au'))
-    print(lengthOfLongestSubstring('abcabcbb'))
+    print(lengthOfLongestSubstring('abc'))
+    print(lengthOfLongestSubstring('abccbcbb'))

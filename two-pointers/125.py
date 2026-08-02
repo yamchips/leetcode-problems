@@ -10,3 +10,16 @@ def isPalindrome(s: str) -> bool:
             return False
     return True
 
+import re
+
+def isPalindrome(s: str) -> bool:
+    chars = re.findall(r"[A-Za-z0-9]", s)
+    word = "".join(chars).lower()
+    start = 0
+    end = len(word) - 1
+    while start < end:
+        if word[start] != word[end]:
+            return False
+        start += 1
+        end -= 1
+    return True

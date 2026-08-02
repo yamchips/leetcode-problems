@@ -63,7 +63,29 @@ def containsNearbyDuplicate(nums: list[int], k: int) -> bool:
             else:
                 seen[nums[i]] = i
     return False
-    
+
+def containsNearbyDuplicate(nums: list[int], k: int) -> bool:
+    seen = set()
+    for i, num in enumerate(nums):
+        if num in seen:
+            return True
+        seen.add(num)
+        if i >= k:
+            seen.remove(nums[i - k])
+    return False
+
+def containsNearbyDuplicate(nums: list[int], k: int) -> bool:
+    seen = set()
+    start, end = 0, 0
+    while end < len(nums):
+        if nums[end] in seen:
+            return True
+        seen.add(nums[end])
+        end += 1
+        if end - start > k:
+            seen.remove(nums[start])
+            start += 1
+    return False
 
 if __name__=='__main__':
     print(containsNearbyDuplicate([1,0,1,1], 1)) # True

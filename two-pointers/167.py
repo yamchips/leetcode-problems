@@ -34,6 +34,9 @@ def twoSum(numbers: list[int], target: int) -> list[int]:
             right -= 1
     return []
 
+def twoSum(numbers: list[int], target: int) -> list[int]:
+    pass
+
 if __name__=='__main__':
     print(twoSum([2,7,11,15], 9) )
     print(twoSum([2,3,4], 6) )

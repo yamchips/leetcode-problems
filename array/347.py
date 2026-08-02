@@ -33,3 +33,14 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
             result.append(num)
             if len(result) == k:
                 return result
+
+def topKFrequent(nums: List[int], k: int) -> List[int]:
+    # key: element, value: freq
+    freq = defaultdict(int)
+    for num in nums:
+        freq[num] += 1
+    sorted_res = sorted(freq.items(), key=lambda x:-x[1])[:k]
+    return [x[0] for x in sorted_res]
+
+if __name__=="__main__":
+    print(topKFrequent([1,1,1,2,2,3],2)) # [1,2]
