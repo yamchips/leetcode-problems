@@ -62,6 +62,57 @@ def calcEquation(equations: list[list[str]], values: list[float], queries: list[
             res.append(-1.0)
     return res
 
+'''
+time complexity:
+    build graph O(E)
+    iterate K queries, in each query, O(V + E)
+    overall, O(K(V + E))
+
+space complexity:
+    build graph O(V + E)
+    in one query DFS uses O(V)
+    result array O(K)
+    overall O(K + V + E)
+'''
+def calcEquation(equations: list[list[str]], values: list[float], queries: list[list[str]]) -> list[float]:
+    # build the graph
+    graph = defaultdict(list)
+    for (u, v), value in zip(equations, values):
+        graph[u].append((v, value))
+        graph[v].append((u, 1 / value))
+
+    result = []
+    for start, end in queries:
+        # check whether the queries are valid: both nodes in graph
+        if start not in graph or end not in graph :
+            result.append(-1.0)
+            continue
+        if start == end:
+            result.append(1.0)
+            continue
+        # if valid, find the path from A to B and calculate the value
+        stack = [(start, 1.0)]
+        seen = {start}
+        found_end = False
+        while stack:
+            node, node_value = stack.pop()
+            for neighbor, neighbor_value in graph[node]:
+                if neighbor in seen:
+                    continue
+                if neighbor == end:
+                    # found the end
+                    result.append(node_value * neighbor_value)
+                    found_end = True
+                    break
+                stack.append((neighbor, node_value * neighbor_value))
+                seen.add(neighbor)
+            if found_end:
+                break
+        if not found_end:
+            result.append(-1.0)
+
+    return result
+
 # Test case
 if __name__=='__main__':
     print(calcEquation([["a","b"],["c","d"]], [1.0, 1.0], [["a","c"],["b","d"],["b","a"],["d","c"]]))

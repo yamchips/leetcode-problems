@@ -72,6 +72,12 @@ def check_reachable(i_start, j_start, i_end, j_end):
 
 '''
 Original solution. Correct. But reachable check can be simplified
+
+time complexity: O(n**2)
+
+space complexity: O(n**2)
+
+In the worst case it may explore a number of positions proportional to the size of the board. There are n² positions, and each checks six moves, so BFS takes O(n²) time. Also, creating the n × n parent board takes O(n²) time and space by itself. The queue and visited set can also contain up to O(n²) positions.
 '''
 def printShortestPath(n, i_start, j_start, i_end, j_end):
 
