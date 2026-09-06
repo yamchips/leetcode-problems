@@ -67,74 +67,55 @@ def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
 
     return True
 
+'''
+Use a state array to record states. 0 means unvisited, 1 means visiting, 2 means
+this node and its children are processed.
+
+Use (node, bool) in stack. False means entering the node, True means this node
+and its children are processed and we leave this node.
+'''
 def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
+    # build the graph
     graph = [[] for _ in range(numCourses)]
     for end, start in prerequisites:
         graph[start].append(end)
+    
+    # build the state array
+    state = [0] * numCourses
 
-    # the node in it and everything reachable have been fully checked and are cycle-free
-    processed = set() 
-    visiting = set() # current path
-    for start in range(numCourses):
-        if start in processed:
+    # iterate the graph
+    for course in range(numCourses):
+        if state[course] == 2:
             continue
 
-        stack = [(start, False)]
+        stack = [(course, False)] 
 
         while stack:
-            node, exiting = stack.pop()
+            node, processed = stack.pop()
 
-            if exiting:
-                visiting.remove(node)
-                processed.add(node)
+            # exit node
+            if processed:
+                state[node] = 2
+                continue
+            # stale entry
+            if state[node] == 2:
                 continue
 
-            if node in processed:
-                continue
-
-            visiting.add(node)
+            state[node] = 1
             stack.append((node, True))
 
             for neighbor in graph[node]:
-                if neighbor in visiting:
-                    return False
-                if neighbor not in processed:
+                if state[neighbor] == 1:
+                    return False # loop
+                elif state[neighbor] == 2:
+                    continue
+                else:
                     stack.append((neighbor, False))
-
     return True
 
-def canFinishRecursive(numCourses: int, prerequisites: list[list[int]]) -> bool:
-    # build the adjacent list
-    graph = defaultdict(list)
-    for dest, src in prerequisites:
-        graph[src].append(dest)
-    # set state array
-    # 0=unvisited, 1=visiting, 2=visited
-    state = [0] * numCourses
-    # define dfs function
-    # return True means there is no cycle
-    # return False means there is a cycle
-    def dfs(node):
-        if state[node] == 1:
-            return False # cycle
-        if state[node] == 2:
-            return True
-        state[node] = 1
-        for neighbor in graph[node]:
-            if not dfs(neighbor):
-                return False
-        state[node] = 2
-        return True
-    
-    for i in range(numCourses):
-        if not dfs(i):
-            return False
-    
-    return True
 
 if __name__=='__main__':
-    print(canFinish(7,[[1,0],[2,0],[3,1],[3,2],[5,4],[6,5],[4,6]]))
-
+    print(canFinish(7,[[1,0],[2,0],[3,1],[3,2],[5,4],[6,5],[4,6]])) # False
     print(canFinishKahn(3, [[1,0],[1,2],[0,1]])) # False
     print(canFinishKahn(3, [[1,0],[1,2]])) # True
     print(canFinishKahn(4, [[1,0],[2,0],[3,1],[3,2]])) # True

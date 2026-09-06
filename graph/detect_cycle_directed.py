@@ -7,7 +7,9 @@ Use a state array, 0 means unvisited, 1 means visiting, 2 means this node and al
 Store (node, bool) in stack, True means exiting this node and its children are processed, False means entering the node
 
 Time complexity: O(V + E)
-    Let V be the number of vertices and E the number of edges. Building the adjacency list takes O(V + E). During DFS, each node is visited at most twice, and across all adjacency lists, each edge is examined once in a directed graph. Therefore, the total time complexity is O(V + E).
+    Let V be the number of vertices and E the number of edges. 
+    Building the adjacency list takes O(V + E). During DFS, each course is fully processed at most once, and when we process a course, we scan its outgoing edges. Across the whole graph, each directed edge is examined once, so the DFS is O(V + E).
+    There can be some stale duplicate stack entries in this iterative implementation, but each of those entries is created while examining an edge, so they do not change the asymptotic complexity.
 
 Space complexity: O(V + E)
     The adjacency list uses O(V + E), the state array uses O(V), and the stack may contain O(V + E) entries in the worst case because the same unprocessed node can be pushed by multiple parents.

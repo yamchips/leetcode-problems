@@ -134,6 +134,56 @@ def orangesRotting(grid: List[List[int]]) -> int:
     else:
         return -1
 
+'''
+We can either use a boolean rotten as a flag to increase time, 
+or we can directly return time - 1 as result
+
+rotten vairable only stays False in the last step
+
+Time complexity: 
+    scan the matrix: O(mn)
+    BFS traversal: O(mn)
+    Overall, O(mn)
+
+Space complexity:
+    queue: O(mn)
+    visited: O(mn)
+    Overall, O(mn)
+'''
+def orangesRotting(grid: list[list[int]]) -> int:
+    # scan the matrix, find all starting points
+    fresh_oranges = 0
+    queue = deque()
+    m, n = len(grid), len(grid[0])
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == 1:
+                fresh_oranges += 1
+            elif grid[i][j] == 2:
+                queue.append((i,j))
+    # initial queue contains all starting points
+    if fresh_oranges == 0:
+            return 0
+    if len(queue) == 0:
+        return -1
+    # BFS, in one step, process all elements in the current queue, update the number of fresh oranges
+    time = 0
+    visited = set(queue)
+    while queue:
+        size = len(queue)
+        time += 1
+        for _ in range(size):
+            x, y = queue.popleft()
+            for dx, dy in [(1,0),(-1,0),(0,1),(0,-1)]:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < m and 0 <= ny < n \
+                and (nx,ny) not in visited and grid[nx][ny] == 1:
+                    queue.append((nx, ny))
+                    visited.add((nx, ny))
+                    fresh_oranges -= 1
+
+    # check number of fresh oranges
+    return time - 1 if fresh_oranges == 0 else -1
     
 if __name__=='__main__':
-    print(orangesRotting([[1,2,1,1,2,1,1]]))
+    print(orangesRotting([[2,1,1],[1,1,0],[0,1,1]]))
