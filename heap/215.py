@@ -22,5 +22,13 @@ def findKthLargest(nums: list[int], k: int) -> int:
             heapq.heappushpop(heap, num)
     return heap[0]
 
+def findKthLargest(nums: list[int], k: int) -> int:
+    minHeap = nums[:k]
+    heapq.heapify(minHeap)
+    for num in nums[k:]:
+        if minHeap[0] < num:
+            heapq.heappushpop(minHeap, num)
+    return minHeap[0]
+
 if __name__=='__main__':
     print(findKthLargest([3,2,1,5,6,4], 2))
