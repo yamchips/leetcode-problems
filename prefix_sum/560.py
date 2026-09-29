@@ -1,17 +1,23 @@
 from typing import List
 
+'''
 
+'''
 def subarraySum(nums: List[int], k: int) -> int:
-    result = 0
-    sumFreq = {0:1}
-    total = 0
+    count = 0
+
+    # prefix = sum of nums[0:i]
+    prefix = 0
+    # we define prefix[0] to 0, so we need to add that key-value pair to dictionary
+    prefix_count = {0:1}
+
     for num in nums:
-        total += num
-        if total - k in sumFreq:
-            result += sumFreq[total - k]
-        sumFreq[total] = sumFreq.get(total, 0) + 1
-    print(sumFreq)
-    return result
+        prefix += num
+        target = prefix - k
+        count += prefix_count.get(target, 0)
+        prefix_count[prefix] = prefix_count.get(prefix, 0) + 1
+    
+    return count
 
 if __name__=='__main__':
     print(subarraySum([1,1,1],2))
