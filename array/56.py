@@ -1,11 +1,11 @@
 def merge(intervals: list[list[int]]) -> list[list[int]]:
-    intervals.sort()
-    result = [intervals[0]]
-    for start, end in intervals[1:]:
-        if result[-1][1] >= start:
-            result[-1][1] = max(result[-1][1], end)
+    result = []
+    sorted_intervals = sorted(intervals, key=lambda x:x[0])
+    for interval in sorted_intervals:            
+        if result and interval[0] <= result[-1][1]:
+            result[-1] = [result[-1][0], max(result[-1][1], interval[1])]
         else:
-            result.append([start, end])
+            result.append(interval)
     return result
 
 if __name__=='__main__':
