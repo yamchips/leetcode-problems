@@ -10,24 +10,8 @@ def findKthLargest(nums: list[int], k: int) -> int:
     minHeap = nums[:k]
     heapq.heapify(minHeap)
     for i in range(k, len(nums)):
-        heapq.heappushpop(minHeap, nums[i])
-    return minHeap[0]
-
-def findKthLargest(nums: list[int], k: int) -> int:
-    heap = []
-    for num in nums:
-        if len(heap) < k:
-            heapq.heappush(heap, num)
-        elif num > heap[0]:
-            heapq.heappushpop(heap, num)
-    return heap[0]
-
-def findKthLargest(nums: list[int], k: int) -> int:
-    minHeap = nums[:k]
-    heapq.heapify(minHeap)
-    for num in nums[k:]:
-        if minHeap[0] < num:
-            heapq.heappushpop(minHeap, num)
+        if minHeap[0] < nums[i]:
+            heapq.heappushpop(minHeap, nums[i])
     return minHeap[0]
 
 if __name__=='__main__':
