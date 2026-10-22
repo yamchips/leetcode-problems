@@ -5,24 +5,23 @@ from typing import List
 
 
 def validPath(n: int, edges: List[List[int]], source: int, destination: int) -> bool:
-    # build the adjacent list
-    adj_list = defaultdict(list)
-    for edge in edges:
-        u, v = edge
-        adj_list[u].append(v)
-        adj_list[v].append(u)
-    # start from source, find destination
-    if source == destination: return True
+    if source == destination:
+        return True
+    # build adjacency list
+    adj = [[] for _ in range(n)]            
+    for u, v in edges:
+        adj[u].append(v)
+        adj[v].append(u)
+
     stack = [source]
     seen = set([source])
     while stack:
         node = stack.pop()
-        if node == destination: return True
-        for neighbor in adj_list[node]:
-            if neighbor == destination: return True
+        for neighbor in adj[node]:
             if neighbor not in seen:
+                if neighbor == destination: return True
                 seen.add(neighbor)
-                stack.append(neighbor)           
+                stack.append(neighbor)
     return False
 
 if __name__=="__main__":
